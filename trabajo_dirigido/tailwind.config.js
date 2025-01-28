@@ -10,7 +10,7 @@ export default {
   },
   plugins: [
     //addDynamicIconSelectors()
-    addIconSelectors(['mdi', 'mdi-light']),
+    addIconSelectors(['mdi', 'mdi-light', 'streamline', 'fa6-brands', 'fa-brands', 'entypo-social']),
   ],
 }
 

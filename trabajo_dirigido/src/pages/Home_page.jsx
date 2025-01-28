@@ -12,7 +12,7 @@ export default function Home_page(){
     
 
     return(
-    <div className="bg-[url('./public/UPB_30Anios.jpg')] bg-repeat bg-[length:400px_450px] md:px-16 lg:px-16 py-16 flex flex-col gap-20 md:gap-30 lg:gap-40">
+    <div className="md:px-16 lg:px-16 py-16 flex flex-col gap-20 md:gap-30 lg:gap-40">
         <section className='flex justify-center md:flex-row lg:flex-row md:justify-between lg:justify-between'>
             <div className='w-[90%] md:w-[40%] lg:w-[35%]'>
                 <Card_black_info tittle={tittle1_black} info={info1_black}/>
