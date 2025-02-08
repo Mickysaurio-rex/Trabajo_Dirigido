@@ -1,0 +1,75 @@
+.calendars {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+calendar-multi {
+    width: 100%;
+}
+
+
+calendar-multi p{
+    color: white;
+    font-size: 36px;
+}  
+
+calendar-multi{
+    &::part(header){
+        background-color: rgba(0, 0, 0, 0.6);
+        padding: 20px 40px;
+        border-radius: 25px;
+        backdrop-filter: blur(4px);
+
+    }
+}
+
+calendar-month{
+    padding: 30px;
+    
+    &::part(heading){
+        font-size: 36px;
+        font-weight: bold;
+        text-transform: capitalize;
+        height: 20%;
+    }
+    &::part(table){
+        height: 80%;
+        font-size:20px;
+    }
+    &::part(button) {
+        border-radius: 20px;
+        width: 60%;
+        height: 60%;
+    }
+}
+
+
+#first-calendar{
+    background-color: rgba(246, 191, 65, 0.6);
+    border-radius: 20px;
+    backdrop-filter: blur(6px); 
+    color: black;
+    width: 45vw;
+    height: 45vw;
+    --color-accent: #436DAB;
+    --color-text-on-accent: black;
+    
+}
+
+#second-calendar{
+    display: flex;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    border-radius: 20px;
+    color:white;
+    width: 45vw;
+    height: 45vw;
+    
+    --color-accent: #F6BF41;
+    --color-text-on-accent: #ffffff;
+
+}
+

@@ -1,7 +1,10 @@
 import * as React from 'react'
-
+import { NavLink } from 'react-router-dom';
 export default function Modal_card({ info, state, setState }) {
-     
+ 
+    const handleClick = () => {
+        setState(false);
+    }
 
     return (
         <>
@@ -14,7 +17,7 @@ export default function Modal_card({ info, state, setState }) {
                     </p>
                 </section>
                 <section className='w-2/5'>
-                    <button onClick={() => setState(false)} className='bg-[#F6BF41] text-black font-medium w-full h-[6vh] rounded-xl text-[20px] transition hover:scale-110 hover:shadow-xl focus:outline-none'>
+                    <button onClick={handleClick} className='bg-[#F6BF41] text-black font-medium w-full h-[6vh] rounded-xl text-[20px] transition hover:scale-110 hover:shadow-xl focus:outline-none'>
                         Continuar
                     </button>
                 </section>

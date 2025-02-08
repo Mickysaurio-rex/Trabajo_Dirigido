@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Card_info from '../components/home_page_components/Card_Info';
-import Card_black_info from '../components/home_page_components/Card_black_info';
+import Card_info from '../../components/home_page_components/Card_Info';
+import Card_black_info from '../../components/home_page_components/Card_black_info';
 
 
 export default function Home_page(){
