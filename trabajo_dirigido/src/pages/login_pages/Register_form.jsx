@@ -2,6 +2,7 @@ import * as React from 'react';
 import FieldText from '../../components/generalComponents/FieldText';
 import Modal_card from '../../components/generalComponents/Modal_card';
 import { Formik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 
 export default function Register_form() {
   const [modalState, setState] = React.useState(false);
@@ -21,6 +22,7 @@ export default function Register_form() {
     password: { text: 'Contraseña', icon: 'iconify mdi--lock', type: 'password' }
   }
 
+  const navigate = useNavigate();
   return (
     <div className="bg-[url('fondo_login.jpg')] px-5 lg:bg-cover md:bg-cover bg-cover w-screen h-screen min-h-[700px] grid justify-items-center place-items-center">
       <section className='flex flex-col justify-around items-center bg-white/50 backdrop-blur-md min-h-[600px] h-[70vh] md:h-[90vh] lg:h-[95vh] md:w-[40vw] lg:w-[40vw] rounded-[20px] p-10'>

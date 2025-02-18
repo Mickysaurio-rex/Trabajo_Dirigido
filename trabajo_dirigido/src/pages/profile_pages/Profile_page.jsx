@@ -5,10 +5,10 @@ import Info_section from '../../components/profile_components/Info_section';
 export default function Profile_page() {
     const [isInEdit, setStateEdit] = React.useState(true);
     return (
-        <div className="bg-[url('./public/UPB_30Anios.jpg')] bg-repeat bg-[length:400px_450px] h-screen md:px-16 lg:px-16 py-10 flex ">
+        <div className="bg-[url('/UPB_30Anios.jpg')] bg-repeat bg-[length:400px_450px] h-screen md:px-16 lg:px-16 py-10 flex ">
             <section className='w-[40%] flex flex-col justify-around items-center py-5'>
                 <div className=' w-[80%] h-[70%] place-content-center place-items-center'>
-                    <img src="./public/profile_test_img.jpeg" alt="Foto de perfil" className='rounded-[50%] w-[25vw] h-[25vw] object-cover' />
+                    <img src="/profile_test_img.jpeg" alt="Foto de perfil" className='rounded-[50%] w-[25vw] h-[25vw] object-cover' />
                 </div>
                 <div className='w-[80%] h-[30%] flex flex-col justify-around items-center'>
                     <button className='bg-[#F6BF41] font-medium text-black drop-shadow-lg rounded-[20px] w-[80%] py-5 transition hover:scale-110 hover:shadow-xl'>

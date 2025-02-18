@@ -1,9 +1,11 @@
 import * as React from 'react';
 import FieldText from '../../components/generalComponents/FieldText';
 import { Formik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login_page() {
   const codeRegex = /^[1-9]{5}$/;
+  const navigate = useNavigate();
 
   const values_field = {
     code: { text: 'Código de Acceso', icon: 'iconify mdi--person', type: 'text', name: 'code' },
@@ -34,6 +36,7 @@ export default function Login_page() {
 
             initialValues={{ code: '', password: '' }}
             onSubmit={(valores, { resetForm }) => {
+              navigate("/app")
               resetForm()
               console.log(valores);
             }}
@@ -61,6 +64,7 @@ export default function Login_page() {
                     type="submit"
                     className='bg-[#F6BF41] text-black font-medium w-11/12 min-h-[50px] h-[80%] text-xl lg:text-2xl rounded-[20px] drop-shadow-lg text-[25px]'>ACCEDER</button>
                   <button
+                  onClick={() => navigate("/register")}
                     className='bg-[#FFE3A4] text-black font-medium w-11/12 min-h-[50px] h-[80%] text-xl lg:text-2xl rounded-[20px] drop-shadow-lg text-[25px]'>REGISTRARSE
                   </button>
                 </section>

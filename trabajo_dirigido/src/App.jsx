@@ -1,29 +1,41 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Navbar from './components/generalComponents/Navbar';
-import Home_page from './pages/home_pages/Home_page';
-import Material_selector_page from './pages/material_pages/Material_selector_page';
-import Laboratory_page from './pages/laboratory_pages/Laboratory_page';
-import Profile_page from './pages/profile_pages/Profile_page';
-import Footer from './components/generalComponents/Footer';
-import Info_Calendar_Page from './pages/laboratory_pages/Info_Calendar_Page';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import Login from './pages/login_pages/Login_page'
+import Register from './pages/login_pages/Register_form'
+import AppLayout from './layout/App_layout'
+import Inicio from './pages/home_pages/Home_page'
+import Laboratorio from './pages/laboratory_pages/Laboratory_page'
+import Reserva from './pages/reservation_pages/reservation_page'
+import Materiales from './pages/material_pages/Material_category_page'
+import Materiales_selector from './pages/material_pages/Material_selector_page'
+import Perfil from './pages/profile_pages/Profile_page'
 
 export default function App() {
-  return (
-    <div className="bg-[url('./public/UPB_30Anios.jpg')] bg-repeat bg-[length:400px_450px] min-h-[100vh]"> 
-    <Router>
-      <section className='p-10 flex flex-col gap-10'>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home_page />} />
-        <Route path="/materiales" element={<Material_selector_page />} />
-        <Route path="/laboratorios" element={<Laboratory_page />} />
-        <Route path="/info_calen_lab" element={<Info_Calendar_Page />} />
-        <Route path="/perfil" element={<Profile_page />} />
-      </Routes>
-      </section>
-      <Footer />
-    </Router>
-    </div>
-  );
+    const isAuthenticated = true;
+
+    return (
+        <Router>
+            <Routes>
+
+                {/*Rutas públicas*/}
+                <Route path='/' element={<Login />} />
+                <Route path='/register' element={<Register />} />
+
+
+                {/*Rutas protegidas*/}
+                <Route
+                    path="/app"
+                    element={isAuthenticated ? <AppLayout /> : <Navigate to="/login" />}
+                >
+                    <Route index element={<Inicio />} />
+                    <Route path="laboratorio" element={<Laboratorio />} />
+                    <Route path="reserva" element={<Reserva />} />
+                    <Route path='materiales' element={<Materiales />}/>
+                    <Route path="materiales_selec" element={<Materiales_selector />} />
+                    <Route path="perfil" element={<Perfil />} />
+                </Route>
+
+
+            </Routes>
+        </Router>
+    )
 }

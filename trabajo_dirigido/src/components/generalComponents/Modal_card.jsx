@@ -1,9 +1,12 @@
 import * as React from 'react'
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 export default function Modal_card({ info, state, setState }) {
+
+    const navigate = useNavigate();
  
     const handleClick = () => {
         setState(false);
+        navigate("/login");
     }
 
     return (
