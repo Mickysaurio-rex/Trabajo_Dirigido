@@ -5,7 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 
 
 export default function Profile_page() {
-    const { userData } = useAuth();
+    const { userData, logout } = useAuth();
     const [isEdit, setStateEdit] = React.useState(false);
 
     return (
@@ -18,7 +18,9 @@ export default function Profile_page() {
                     <button className='bg-[#F6BF41] font-medium text-black drop-shadow-lg rounded-[20px] w-[80%] py-5 transition hover:scale-110 hover:shadow-xl'>
                         Cambiar Foto
                     </button>
-                    <button className='bg-[#FA3E41] font-medium text-black drop-shadow-lg rounded-[20px] w-[80%] py-5 transition hover:scale-110 hover:shadow-xl'>
+                    <button 
+                    onClick={logout}
+                    className='bg-[#FA3E41] font-medium text-black drop-shadow-lg rounded-[20px] w-[80%] py-5 transition hover:scale-110 hover:shadow-xl'>
                         Cerrar Sesión
                     </button>
                 </div>

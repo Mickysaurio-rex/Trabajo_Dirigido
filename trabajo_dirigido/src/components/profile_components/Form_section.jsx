@@ -42,7 +42,7 @@ export default function Form_section({ userProfile, setState }) {
         }
     };
 
-    const Input_user_card = ({ tittle, value, name, function_onChange, function_onBlur }) => {
+    const Input_user_card = ({ tittle, value, name, function_onChange, function_onBlur, isDisabled }) => {
         return (
             <div className='px-5 h-[15vh] min-h-[100px] max-h-[200px] flex flex-col gap-2 bg-black/70 backdrop-blur-[3px] rounded-[20px] place-content-center'>
                 <h2 className='text-xl text-white'>
@@ -53,6 +53,7 @@ export default function Form_section({ userProfile, setState }) {
                         name={name}
                         onChange={function_onChange}
                         onBlur={function_onBlur}
+                        disabled={isDisabled}
                          />
                 </div>
             </div>
@@ -75,6 +76,7 @@ export default function Form_section({ userProfile, setState }) {
                                 function_onChange={handleChange} 
                                 function_onBlur={handleBlur}
                                 isTouched={touched[key]}
+                                isDisabled={key === "correo"} 
                             />
                         ))}
                     </div>

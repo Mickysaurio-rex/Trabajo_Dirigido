@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import firebaseApp from "../firebase/credenciales";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 const auth = getAuth(firebaseApp);
@@ -44,8 +44,19 @@ export function AuthProvider({ children }) {
         return () => unsubscribe();
     }, []);
 
+    const logout = async () => {
+        try {
+            await signOut(auth);
+            setUser(null);
+            setUserData(null);
+            console.log("Sesión cerrada correctamente");
+        } catch (error) {
+            console.error("Error al cerrar sesión:", error);
+        }
+    };
+
     return (
-        <AuthContext.Provider value={{ user, userData, loading }}>
+        <AuthContext.Provider value={{ user, userData, loading, logout }}>
             {children}
         </AuthContext.Provider>
     );
