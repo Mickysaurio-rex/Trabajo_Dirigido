@@ -21,7 +21,7 @@ export default function Card_info_material({ element, state, setStateModal }) {
     return (
         <>
             {state &&
-                <div className='w-screen h-screen bg-white/60 flex justify-center items-center fixed'>
+                <div className='w-screen h-screen bg-white/60 flex justify-center items-center fixed z-50'>
                     <div className='flex flex-col md:flex-row lg:flex-row lg:gap-y-[25px] bg-[#F6BF41] rounded-[30px] w-[80%] h-[90%] lg:h-[70%] '>
                         <section className="bg-[url('/public/UPB_30Anios.jpg')] opacity-40 bg-contain place-content-center justify-items-center w-full lg:w-[40%] h-[30%] lg:h-full">
                             <img src="/Sierra_circular.jpg" className='w-[40%] lg:w-[70%]' />

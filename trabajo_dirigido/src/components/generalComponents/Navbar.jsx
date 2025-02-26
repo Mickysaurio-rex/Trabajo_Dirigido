@@ -2,45 +2,31 @@ import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 
 export default function Navbar() {
-    const selector = (isActive) => {
-        isActive ? 'text-red-500' : ''
-    }
-
     return (
-        <nav class="bg-black rounded-3xl h-[8vh] text-white place-content-center min-h-[70px] m-5">
-            <ul class="font-bold flex flex-row justify-around">
-                <NavLink to="/app" >
-                    <li className={`flex flex-row items-center gap-1 ${selector}`}>
-                        <span class="iconify mdi--home"></span>
-                        <p className='hidden md:block lg:block'>Inicio</p>
+        <nav className="bg-black rounded-3xl h-[8vh] text-white flex min-h-[70px] m-5">
+            <ul className="font-bold flex flex-row justify-around w-full items-center">
+                {[
+                    { path: "/app", icon: "mdi--home", label: "Inicio" },
+                    { path: "/app/materiales", icon: "mdi--tools", label: "Materiales" },
+                    { path: "/app/laboratorio", icon: "mdi--flask", label: "Laboratorio" },
+                    { path: "/app/reserva", icon: "mdi--calendar-month", label: "Reserva" },
+                    { path: "/app/perfil", icon: "mdi--person", label: "Perfil" }
+                ].map(({ path, icon, label }) => (
+                    <li key={path}>
+                        <NavLink
+                            to={path}
+                            end
+                            className={({ isActive }) =>
+                                `flex flex-row items-center gap-1 transition-all
+                                ${isActive ? "bg-yellow-400 shadow-inner text-white text-[20px] font-bold rounded-[40px] py-4 px-10" : "text-white"}`
+                            }
+                        >
+                            <span className={`iconify ${icon}`} />
+                            <p className="hidden md:block lg:block">{label}</p>
+                        </NavLink>
                     </li>
-                </NavLink>
-                <NavLink to="/app/materiales" className={({ isActive }) =>
-                    isActive ? 'text-red-500' : ''
-                }>
-                    <li className='flex flex-row items-center gap-1'>
-                        <span class="iconify mdi--tools"></span>
-                        <p className='hidden md:block lg:block'>Materiales</p>
-                    </li>
-                </NavLink>
-                <NavLink to="/app/laboratorio" class="">
-                    <li className='flex flex-row items-center gap-1'>
-                        <span class="iconify mdi--flask"></span>
-                        <p className='hidden md:block lg:block'>Laboratorio</p>
-                    </li>
-                </NavLink>
-                <li className='flex flex-row items-center gap-1'>
-                    <span class="iconify mdi--calendar-month"></span>
-                    <a href="#" class="hidden md:block lg:block">Reserva</a>
-                </li>
-                <NavLink to="/app/perfil" class="">
-                    <li className='flex flex-row items-center gap-1'>
-                        <span class="iconify mdi--person"></span>
-                        <p className='hidden md:block lg:block'>Perfil</p>
-                    </li>
-                </NavLink>
+                ))}
             </ul>
         </nav>
-
-    )
+    );
 }

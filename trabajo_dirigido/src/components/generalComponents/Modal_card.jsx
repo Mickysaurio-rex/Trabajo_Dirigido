@@ -6,7 +6,7 @@ export default function Modal_card({ info, state, setState }) {
  
     const handleClick = () => {
         setState(false);
-        navigate("/login");
+        navigate("/");
     }
 
     return (

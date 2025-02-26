@@ -2,15 +2,52 @@ import * as React from 'react';
 import FieldText from '../../components/generalComponents/FieldText';
 import { Formik } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import Modal_card from '../../components/generalComponents/Modal_card';
+import firebaseApp from '../../firebase/credenciales';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+
+const auth = getAuth(firebaseApp);
 
 export default function Login_page() {
-  const codeRegex = /^[1-9]{5}$/;
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const navigate = useNavigate();
+  const [errorModal, setErrorModal] = React.useState('');
+  const [modalState, setState] = React.useState(false);
+
+  const authFirebaseAndLogin = async (values) => {
+    try {
+        await signInWithEmailAndPassword(auth, values.email, values.password);
+        navigate('/app');
+    } catch (error) {
+        switch (error.code) {
+            case 'auth/invalid-email':
+                setErrorModal('El correo no tiene un formato válido');
+                break;
+            case 'auth/user-disabled':
+                setErrorModal('Este usuario ha sido deshabilitado');
+                break;
+            case 'auth/user-not-found':
+              setErrorModal( 'No se encontró un usuario con ese correo' );
+                break;
+            case 'auth/wrong-password':
+                setErrorModal( 'Contraseña incorrecta' );
+                break;
+            case 'auth/network-request-failed':
+                setErrorModal( 'Problemas con la conexión a la red. Intenta nuevamente.' );
+                break;
+            default:
+                setErrorModal( 'Error desconocido. Intenta nuevamente más tarde.' );
+                break;
+        }
+        setState(true);
+    }
+}
 
   const values_field = {
-    code: { text: 'Código de Acceso', icon: 'iconify mdi--person', type: 'text', name: 'code' },
+    email: { text: 'Correo', icon: 'iconify mdi--person', type: 'text', name: 'email' },
     password: { text: 'Contraseña', icon: 'iconify mdi--lock', type: 'password', name: 'password' }
   }
+ 
 
   return (
     <div className="bg-[url('fondo_login.jpg')] lg:bg-cover md:bg-cover bg-cover h-screen min-h-[700px] p-12 grid justify-items-center place-items-center lg:flex">
@@ -21,10 +58,10 @@ export default function Login_page() {
           <Formik
             validate={(valores) => {
               let errores = {};
-              if (!valores.code) {
-                errores.code = 'El código es obligatorio';
-              } else if (!codeRegex.test(valores.code)) {
-                errores.code = 'Coloque su código correcto Por Favor';
+              if (!valores.email) {
+                errores.email = 'El correo es obligatorio';
+              } else if (!emailRegex.test(valores.email)) {
+                errores.email = 'Coloque un correo válido Por Favor';
               }
 
               if (!valores.password) {
@@ -34,19 +71,18 @@ export default function Login_page() {
             }
             }
 
-            initialValues={{ code: '', password: '' }}
-            onSubmit={(valores, { resetForm }) => {
-              navigate("/app")
-              resetForm()
-              console.log(valores);
+            initialValues={{ email: '', password: '' }}
+            onSubmit={async (valores, { resetForm }) => {
+              authFirebaseAndLogin(valores);
+              resetForm();
             }}
           >
             {({ values, errors, touched, handleSubmit, handleChange, handleBlur }) => (
               <form onSubmit={handleSubmit} className='w-full h-full flex flex-col justify-around items-center'>
                 <section id='inputs_section' className='w-full h-1/2 flex flex-col justify-around items-center '>
-                  {Object.entries(values_field).map(([key, value], index) => (
+                  {Object.entries(values_field).map(([key, value]) => (
                     <FieldText
-                      key={index}
+                      key={key}
                       text={value.text}
                       icon_name={value.icon}
                       type_input={value.type}
@@ -64,6 +100,7 @@ export default function Login_page() {
                     type="submit"
                     className='bg-[#F6BF41] text-black font-medium w-11/12 min-h-[50px] h-[80%] text-xl lg:text-2xl rounded-[20px] drop-shadow-lg text-[25px]'>ACCEDER</button>
                   <button
+                  type="button"
                   onClick={() => navigate("/register")}
                     className='bg-[#FFE3A4] text-black font-medium w-11/12 min-h-[50px] h-[80%] text-xl lg:text-2xl rounded-[20px] drop-shadow-lg text-[25px]'>REGISTRARSE
                   </button>
@@ -73,6 +110,7 @@ export default function Login_page() {
           </Formik>
         </section>
       </section>
+     <Modal_card info={errorModal} state={modalState} setState={setState} /> 
     </div>
   )
 }
