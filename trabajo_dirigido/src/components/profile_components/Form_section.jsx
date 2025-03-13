@@ -19,22 +19,15 @@ export default function Form_section({ userProfile, setState }) {
 
     const actualizarUsuario = async (values) => {
         try {
-            // Referencia al documento del usuario en Firestore
             const userRef = doc(firestore, `usuarios/${user.uid}`);
-            
-            // Actualizar los datos en Firestore
             await updateDoc(userRef, values);
-            
             console.log("Datos actualizados correctamente en Firestore.");
             alert("Datos actualizados correctamente.");
-
-            // Actualizar userData en el contexto
             setUserData({
                 ...userProfile,
-                ...values  // Esto asegura que los valores nuevos se guarden en el contexto
+                ...values  
             });
-            
-            setState(false); // Cierra el formulario de edición
+            setState(false); 
         } catch (error) {
             console.error("Error al actualizar los datos:", error);
             alert("Hubo un error al actualizar los datos.");

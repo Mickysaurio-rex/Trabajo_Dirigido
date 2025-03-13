@@ -3,10 +3,10 @@ import { NavLink } from 'react-router-dom';
 
 
 const navegación = [
-    {id: 1, nombre: 'Inicio', icon: 'iconify mdi--home' ,ruta: '/'},
-    {id: 2, nombre: 'Nuestros Materiales', icon: 'iconify mdi--tools', ruta: '/materiales'},
-    {id: 3, nombre: 'Reserva Ya!', icon: 'iconify mdi--calendar-month', ruta: '/'},
-    {id: 4, nombre: 'Mi Perfil', icon: 'iconify mdi--person', ruta: '/perfil'}
+    {id: 1, nombre: 'Inicio', icon: 'iconify mdi--home' ,ruta: '/app'},
+    {id: 2, nombre: 'Nuestros Materiales', icon: 'iconify mdi--tools', ruta: '/app/materiales'},
+    {id: 3, nombre: 'Reserva Ya!', icon: 'iconify mdi--calendar-month', ruta: '/app/reserva'},
+    {id: 4, nombre: 'Mi Perfil', icon: 'iconify mdi--person', ruta: '/app/perfil'}
 ]
 
 export default function Footer() {
@@ -21,7 +21,7 @@ export default function Footer() {
                     <ul className='flex flex-col justify-around gap-5 md:gap-0 lg:gap-0 h-full'>
                         {navegación.map((item) => (
                             <li key={item.id}>
-                                <NavLink className='flex flex-row gap-2 items-center' to={item.ruta}>
+                                <NavLink className='flex flex-row gap-2 items-center' to={item.ruta} onClick={() => window.scrollTo({ top: 0})}>
                                     <span class={`${item.icon} text-[20px]`}></span>
                                     <p>{item.nombre}</p>
                                 </NavLink>

@@ -6,7 +6,6 @@ import { getFirestore, doc, getDoc } from "firebase/firestore";
 const auth = getAuth(firebaseApp);
 const firestore = getFirestore(firebaseApp);
 
-// Crear el contexto de autenticación
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
