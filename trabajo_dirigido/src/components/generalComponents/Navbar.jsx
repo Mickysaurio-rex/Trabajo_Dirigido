@@ -18,11 +18,11 @@ export default function Navbar() {
                             end
                             className={({ isActive }) =>
                                 `flex flex-row items-center gap-1 transition-all
-                                ${isActive ? "bg-yellow-400 shadow-inner text-white text-[20px] font-bold rounded-[40px] py-4 px-10" : "text-white"}`
+                                ${isActive ? "bg-yellow-400 text-white text-[20px] font-bold rounded-[40px] py-4 px-10" : "text-white"}`
                             }
                         >
                             <span className={`iconify ${icon}`} />
-                            <p className="hidden md:block lg:block">{label}</p>
+                            <p className="hidden md:block lg:block ">{label}</p>
                         </NavLink>
                     </li>
                 ))}

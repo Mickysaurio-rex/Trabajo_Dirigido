@@ -10,6 +10,8 @@ import Materiales from "./pages/material_pages/Material_category_page";
 import Materiales_selector from "./pages/material_pages/Material_selector_page";
 import Perfil from "./pages/profile_pages/Profile_page";
 import Info_Calendar_page from "./pages/laboratory_pages/Info_Calendar_Page";
+import New_reserv_page from "./pages/reservation_page/New_reserv_page";
+import Selector_material_page from "./pages/reservation_page/Selector_material_page";
 
 function AppRoutes() {
     const { user, loading } = useAuth();
@@ -31,6 +33,8 @@ function AppRoutes() {
                     <Route path="laboratorio" element={<Laboratorio />} />
                     <Route path="laboratorio_info" element={<Info_Calendar_page />} />
                     <Route path="reserva" element={<Reserva />} />
+                    <Route path="nueva_reserva" element={<New_reserv_page />}/>
+                    <Route path="nv_reserv_materials" element={<Selector_material_page />} />
                     <Route path="materiales" element={<Materiales />} />
                     <Route path="materiales_selec" element={<Materiales_selector />} />
                     <Route path="perfil" element={<Perfil />} />

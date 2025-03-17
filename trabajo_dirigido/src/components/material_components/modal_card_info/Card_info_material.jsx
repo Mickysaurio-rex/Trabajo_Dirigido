@@ -3,7 +3,7 @@ import Info_section from './Info_section';
 import Form_section from './Form_section';
 
 
-export default function Card_info_material({ element, state, setStateModal }) {
+export default function Card_info_material({ element, state, setStateModal, setMaterials, setElement }) {
    
 
     const [stateEdit, setStateEdit] = React.useState(false);
@@ -32,7 +32,7 @@ export default function Card_info_material({ element, state, setStateModal }) {
         <>
             {state &&
                 <div className='absolute top-0 left-0 w-screen h-screen bg-white/60 flex justify-center items-center'>
-                    <div className='flex flex-col md:flex-row lg:flex-row lg:gap-y-[25px] bg-[#F6BF41] rounded-[30px] w-[80%] h-[90%] lg:h-[70%] min-h-[600px] '>
+                    <div className='flex flex-col md:flex-row lg:flex-row lg:gap-y-[25px] bg-[#F6BF41] rounded-[30px] w-[80%] h-[90%] md:h-[30vh] lg:h-[70%] min-h-[600px] '>
                         <section className="bg-[url('/public/UPB_30Anios.jpg')] bg-contain place-content-center justify-items-center w-full md:w-[40%] lg:w-[40%] h-[100%] lg:h-full">
                             <img src={element.imagen} className='w-[40%] md:w-[80%] lg:w-[70%]' />
                             {stateEdit && (
@@ -57,7 +57,7 @@ export default function Card_info_material({ element, state, setStateModal }) {
                                 </div>
                             )}
                         </section>
-                        <section className='py-3 lg:py-5 lg:px-10 lg:w-[60%] h-full flex flex-col justify-between gap-5'>
+                        <section className='py-3 lg:py-5 lg:px-10 md:w-[60%] lg:w-[60%] h-full flex flex-col justify-between gap-5'>
                             <div className='flex justify-end items-center px-5 lg:px-0 h-[10%]'>
                                 <button onClick={handleCloseModal}>
                                     <span className="iconify mdi--close-box w-[24px] h-[24px] text-black"></span>
@@ -65,7 +65,7 @@ export default function Card_info_material({ element, state, setStateModal }) {
                             </div>
                             {
                                 !stateEdit ? <Info_section element={element} setStateEdit={setStateEdit}/> :
-                                <Form_section element={element} setStateEdit={setStateEdit} setImage={setNewImage} />                        
+                                <Form_section element={element} setStateEdit={setStateEdit} setImage={setNewImage} setMaterials={setMaterials} setElement={setElement}/>                        
                             }    
                         </section>
                     </div>

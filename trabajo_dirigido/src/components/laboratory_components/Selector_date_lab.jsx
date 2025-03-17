@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-export default function Selector_date_lab() {
+export default function Selector_date_lab({ setSelectedDate }) {
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
     const currentMonth = currentDate.getMonth();
 
-    const [selectedMonth, setSelectedMonth] = useState(currentMonth);
+    const [selectedMonth, setSelectedMonth] = useState("");
+    const [selectedDay, setSelectedDay] = useState("");
     const [daysInMonth, setDaysInMonth] = useState(30);
 
     const months = [
@@ -16,26 +17,34 @@ export default function Selector_date_lab() {
     const getDaysInMonth = (month, year) => new Date(year, month + 1, 0).getDate();
 
     useEffect(() => {
-        setDaysInMonth(getDaysInMonth(selectedMonth, currentYear));
+        if (selectedMonth !== "") {
+            setDaysInMonth(getDaysInMonth(selectedMonth, currentYear));
+        } else {
+            setDaysInMonth(30);
+        }
     }, [selectedMonth]);
+
+    useEffect(() => {
+        setSelectedDate({ month: selectedMonth, day: selectedDay });
+    }, [selectedMonth, selectedDay, setSelectedDate]);
 
     const selectConfig = [
         {
             label: "Día",
             id: "dia",
-            options: Array.from({ length: daysInMonth }, (_, i) => i + 1),
-            value: null,
-            onChange: null,
+            options: [""].concat(Array.from({ length: daysInMonth }, (_, i) => i + 1)),
+            value: selectedDay,
+            onChange: (e) => setSelectedDay(e.target.value),
         },
         {
             label: "Mes",
             id: "mes",
-            options: months.slice(currentMonth).map((name, index) => ({
+            options: [""].concat(months.slice(currentMonth).map((name, index) => ({
                 name,
                 value: currentMonth + index
-            })),
+            }))),
             value: selectedMonth,
-            onChange: (e) => setSelectedMonth(Number(e.target.value)),
+            onChange: (e) => setSelectedMonth(e.target.value),
         },
         {
             label: "Año",
@@ -61,9 +70,10 @@ export default function Selector_date_lab() {
                         onChange={onChange}
                         disabled={disabled}
                     >
-                        {options.map((option) => (
-                            <option key={option.value} value={option.value} className="text-black">
-                                {option.name || option} 
+                        <option value="" className="text-black">Todos</option>
+                        {options.map((option, index) => (
+                            <option key={index} value={option.value || option} className="text-black">
+                                {option.name || option}
                             </option>
                         ))}
                     </select>

@@ -2,7 +2,7 @@ import { Formik } from "formik";
 import { doc, updateDoc, getFirestore } from "firebase/firestore";
 import firebaseApp from "../../../firebase/credenciales";
 
-export default function Form_section({element, setStateEdit, setImage, uploadImage}) {
+export default function Form_section({element, setStateEdit, setImage, uploadImage, setMaterials, setElement}) {
     const firestore = getFirestore(firebaseApp);
 
     const handleUpdate = async (values) => {
@@ -16,6 +16,11 @@ export default function Form_section({element, setStateEdit, setImage, uploadIma
                 year: values.year,
                 estante: values.estante
             });
+            setMaterials(prevMaterials =>
+                prevMaterials.map(mat => mat.id === element.id ? { ...mat, ...values } : mat)
+            );
+            setElement(prevElement => ({ ...prevElement, ...values }));
+
             alert("Material actualizado correctamente");
             setStateEdit(false);
         } catch (error) {
@@ -36,7 +41,7 @@ export default function Form_section({element, setStateEdit, setImage, uploadIma
             }}
             onSubmit={handleUpdate}>
                 {({ values, handleChange, handleBlur, handleSubmit }) => (
-                <form onSubmit={handleSubmit} className="flex flex-col gap-y-5">
+                <form onSubmit={handleSubmit} className="flex flex-col md:gap-y-20 lg:gap-y-20">
                     <section className="flex flex-col gap-5 px-10 w-full">
                         <input
                             name="nombre"

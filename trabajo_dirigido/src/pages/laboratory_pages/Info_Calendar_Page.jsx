@@ -1,6 +1,5 @@
 import Card_black_info from '../../components/home_page_components/Card_black_info';
 import * as React from 'react';
-import Calendar_info from "../../components/laboratory_components/Calendar_info";
 import Reservation_cards_lab from '../../components/laboratory_components/Reservation_cards_lab';
 import ModalReserva from '../../components/laboratory_components/modal_form_newReserv/Modal_newReserv';
 

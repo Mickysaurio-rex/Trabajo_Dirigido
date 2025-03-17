@@ -11,7 +11,7 @@ export default function Info_section({ element, setStateEdit }) {
 
     return (
         <>
-            <section className='flex flex-col gap-[20px] justify-around items-start px-10 w-full overflow-y-auto'>
+            <section className='flex flex-col px-10 lg:px-0 gap-[20px] justify-around items-start w-full overflow-y-auto'>
                 <h2 id='materialName' className='text-black font-bold text-2xl md:text-3xl lg:text-[48px]'>{element.nombre}</h2>
                 <p className='text-black text-xs md:text-base lg:text-2xl'>{element.descripcion}</p>
                 <article className='text-black flex flex-col gap-[20px] w-full'>

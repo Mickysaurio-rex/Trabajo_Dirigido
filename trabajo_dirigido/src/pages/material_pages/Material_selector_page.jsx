@@ -109,7 +109,7 @@ export default function Material_selector_page() {
                     )}
                 </section>
             </div>
-            <Card_info_material state={stateModal} setStateModal={setStateModal} element={elementModal} />
+            <Card_info_material state={stateModal} setStateModal={setStateModal} element={elementModal} setMaterials={setMaterials} setElement={setElementModal}/>
             <Form_new_material state={stateNewMat} setState={setStateNewMat} categorias={categorias} setMaterials={setMaterials} />
         </>
     )

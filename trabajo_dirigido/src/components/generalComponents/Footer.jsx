@@ -12,12 +12,12 @@ const navegación = [
 export default function Footer() {
     return (
         <footer className="bg-[url('/Foto-UPB-Campus-La-Paz._Oscuro.jpg')] bg-cover bg-center flex flex-col md:flex-row lg:flex-row justify-center md:justify-around lg:justify-around items-center w-full md:h-[30vh] lg:h-[30vh] min-h-[200px] text-white gap-5 md:gap-0 lg:gap-0 py-5 md:py-0 lg:py-0">
-            <section className='hidden md:block lg:block md:w-[15%] lg:w-[15%]'>
+            <section className='hidden md:block lg:block md:w-[15%] lg:w-[15%] bg-white rounded-lg '>
                 <img src='/logo_upb.png'/>
             </section>
             <section className=' flex flex-col md:flex-row lg:flex-row justify-center items-center md:justify-around lg:justify-around w-full md:w-1/3 lg:w-1/3 h-full'>
                 <div className='py-3 flex flex-col justify-around md:h-full lg:h-full'>
-                    <h3 className='text-[24px]'>Descubre</h3>
+                    <h3 className='text-[24px] md:text-[20px] lg:text-[24px]'>Descubre</h3>
                     <ul className='flex flex-col justify-around gap-5 md:gap-0 lg:gap-0 h-full'>
                         {navegación.map((item) => (
                             <li key={item.id}>
@@ -30,7 +30,7 @@ export default function Footer() {
                     </ul>
                 </div>
                 <div className='flex flex-col py-3 gap-2 md:h-full lg:h-full'>
-                    <h3 className='text-[24px]'>Contactos</h3>
+                    <h3 className='text-[24px] md:text-[20px] lg:text-[24px]'>Contactos</h3>
                     <ul className='flex flex-col justify-around gap-5'>
                         <li className='flex flex-row gap-2'>
                             <span class="iconify mdi--phone-hangup text-[20px]"></span>
