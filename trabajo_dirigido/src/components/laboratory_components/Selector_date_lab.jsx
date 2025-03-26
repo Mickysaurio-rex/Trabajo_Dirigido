@@ -7,7 +7,7 @@ export default function Selector_date_lab({ setSelectedDate }) {
 
     const [selectedMonth, setSelectedMonth] = useState("");
     const [selectedDay, setSelectedDay] = useState("");
-    const [daysInMonth, setDaysInMonth] = useState(30);
+    const [daysInMonth, setDaysInMonth] = useState(31);
 
     const months = [
         "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
@@ -18,9 +18,9 @@ export default function Selector_date_lab({ setSelectedDate }) {
 
     useEffect(() => {
         if (selectedMonth !== "") {
-            setDaysInMonth(getDaysInMonth(selectedMonth, currentYear));
+            setDaysInMonth(getDaysInMonth(parseInt(selectedMonth), currentYear));
         } else {
-            setDaysInMonth(30);
+            setDaysInMonth(31);
         }
     }, [selectedMonth]);
 

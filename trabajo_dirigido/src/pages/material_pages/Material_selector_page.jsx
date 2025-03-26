@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Search_input from '../../components/generalComponents/Search_Input';
 import Card_selector_material from '../../components/material_components/Card_selector_material';
 import Card_info_material from '../../components/material_components/modal_card_info/Card_info_material';
@@ -12,13 +11,14 @@ import { useCategory } from '../../context/CategoryContext';
 import { useAuth } from '../../context/AuthContext';
 
 export default function Material_selector_page() {
-    const [categorias, setCategorias] = React.useState([]);
-    const [stateModal, setStateModal] = React.useState(false);
-    const [stateNewMat, setStateNewMat] = React.useState(false);
-    const [elementModal, setElementModal] = React.useState(null);
-    const [materials, setMaterials] = React.useState([]);
-    const [search, setSearch] = React.useState("");
-    const [loading, setLoading] = React.useState(true);
+    const [categorias, setCategorias] = useState([]);
+    const [stateModal, setStateModal] = useState(false);
+    const [stateNewMat, setStateNewMat] = useState(false);
+    const [elementModal, setElementModal] = useState(null);
+    const [materials, setMaterials] = useState([]);
+    const [search, setSearch] = useState("");
+    const [loading, setLoading] =useState(true);
+    const [loadingDelete, setLoadinDelete] = useState(false); 
     const firestore = getFirestore(firebaseApp);
     const storage = getStorage(firebaseApp);
     const navigate = useNavigate();
@@ -54,6 +54,7 @@ export default function Material_selector_page() {
     }, []);
 
     const handleDelete = async (id, imageUrl) => {
+        setLoadinDelete(true);
         try {
             if (imageUrl) {
                 const imageRef = ref(storage, imageUrl);
@@ -63,6 +64,8 @@ export default function Material_selector_page() {
             setMaterials(materials.filter(material => material.id !== id));
         } catch (error) {
             console.error("Error eliminando material o imagen:", error);
+        }finally{
+            setLoadinDelete(false);
         }
     };
 
@@ -72,10 +75,10 @@ export default function Material_selector_page() {
         <>
             <div className="flex flex-col gap-4 relative px-2 md:px-2 lg:px-0 min-h-[100vh]">
                 <section className='flex flex-row gap-3'>
-                    <div className="w-[50%] place-content-center">
+                    <div className="w-[50%] ">
                         <Search_input function_search={searcher} />
                     </div>
-                    <div className="w-[50%] flex flex-col md:flex-row lg:flex-row justify-around gap-2">
+                    <div className="w-[50%] flex flex-col md:flex-row lg:flex-row justify-around md:items-center gap-2">
                         {userData.rol === 'admin' &&
                             <button
                                 onClick={() => setStateNewMat(true)}
@@ -104,6 +107,7 @@ export default function Material_selector_page() {
                                 element_img={element.imagen}
                                 onDelete={handleDelete}
                                 button_function={() => { setStateModal(true); setElementModal(element); }}
+                                loading={loadingDelete}
                             />
                         ))
                     )}

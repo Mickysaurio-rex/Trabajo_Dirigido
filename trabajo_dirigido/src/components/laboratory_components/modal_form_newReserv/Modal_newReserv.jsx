@@ -4,116 +4,125 @@ import Calendar_input from "./Calendar_input";
 import Horarios_input from "./Horarios_input";
 import Confirm_modal from "./Confirm_modal";
 import firebaseApp from "../../../firebase/credenciales";
-import { getDocs,addDoc, collection, getFirestore, Timestamp } from "firebase/firestore";
+import { getDocs, addDoc, collection, getFirestore, Timestamp } from "firebase/firestore";
 import { useAuth } from "../../../context/AuthContext";
+import { useReservations } from "../../../context/ReservationContext";
 
-export default function ModalReserva({ stateModal, setState }) {
+export default function ModalReserva({ stateModal, setState, state }) {
     const { user } = useAuth();
+    const { addReservation } = useReservations()
     const [step, setStep] = useState(1);
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedDates, setSelectedDates] = useState([]);
     const [selectedTimes, setSelectedTimes] = useState([]);
     const [horarios, setHorario] = useState([]);
+    const [loading, setLoading] = useState(false);
     const firestore = getFirestore(firebaseApp);
 
     useEffect(() => {
-            const fetchHorarios = async () => {
-                try {
-                    const querySnapshot = await getDocs(collection(firestore, "horarios"));
-                    const lista = querySnapshot.docs.map((doc) => ({
-                        id: doc.id,
-                        ...doc.data()
-                    }));
-                    setHorario(lista);
-                } catch (error) {
-                    console.error("Error obteniendo materiales:", error);
-                } 
-            };
-    
-            fetchHorarios();
-        }, []);
-
-        const handleTimeSelection = (id) => {
-            setSelectedTimes((prev) =>
-                prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id]
-            );
+        const fetchHorarios = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(firestore, "horarios"));
+                const lista = querySnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+                setHorario(lista);
+            } catch (error) {
+                console.error("Error obteniendo materiales:", error);
+            }
         };
+        fetchHorarios();
+    }, []);
+
+
+    const handleTimeSelection = (date, horaId) => {
+        setSelectedTimes((prevSelectedTimes) => {
+            const newSelectedTimes = { ...prevSelectedTimes };
+            if (!newSelectedTimes[date]) {
+                newSelectedTimes[date] = [];
+            }
+            const index = newSelectedTimes[date].indexOf(horaId);
+            if (index === -1) {
+                newSelectedTimes[date].push(horaId);
+            } else {
+                newSelectedTimes[date].splice(index, 1);
+            }
+
+            return newSelectedTimes;
+        });
+    };
 
     const handleCancel = () => {
         setStep(1);
-        setSelectedDate(null);
+        setSelectedDates([]);
         setSelectedTimes([]);
         setState(false);
     }
 
-    const saveReserva = async (selectedDate, selectedTimes, setState) => {
-        try {
-            if (!selectedDate || selectedTimes.length === 0) {
-                console.error("Datos incompletos para la reserva");
-                return;
-            }
-            // Convertir la fecha seleccionada a Timestamp
-            const fechaReserva = Timestamp.fromDate(selectedDate);
-            // Ordenar los horarios seleccionados por ID antes de guardar
-            const horariosSeleccionados = [...selectedTimes].sort((a, b) => a - b);
-            console.log({
-                usuario: user.uid, // Guardar UID del usuario
-                fecha: fechaReserva,
-                horarios: horariosSeleccionados,
-                estado: "Aceptado"
-            });
-            // Guardar en Firestore
-            await addDoc(collection(firestore, "reservaLab"), {
-                usuario: user.uid, // Guardar UID del usuario
-                fecha: fechaReserva,
-                horarios: horariosSeleccionados,
-                estado: "Aceptado"
-            });
-           
-            console.log("Reserva guardada correctamente");
-            setState(false); // Cerrar el modal después de guardar
-        } catch (error) {
-            console.error("Error guardando la reserva:", error);
+    const saveReserva = async (selectedDates, selectedTimes, setState) => {
+        setLoading(true);
+        try{
+            await addReservation(selectedDates, selectedTimes);
+            setState(false);
+            setLoading(false);
+        }catch (error) {
+            setState(false);
         }
     };
+    
+    useEffect(() => {
+        if (state) {
+            document.body.style.overflow = 'hidden'; // Bloquea el scroll
+        } else {
+            document.body.style.overflow = 'auto'; // Restaura el scroll
+        }
+    }, [state]);
+
     return (
         stateModal && (
-            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center ">
-                <div className="bg-white/50 backdrop-blur-[6px] p-6 rounded-[40px] shadow-lg w-[90%] md:w-[40%] flex flex-col justify-center items-center gap-2">
-                    <h2 className="text-2xl bg-black/60 text-white font-bold w-[60%] py-4 rounded-3xl text-center">Crea tu reserva</h2>
+            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
+                <div className="bg-white/50 backdrop-blur-[6px] p-6 rounded-[40px] shadow-lg w-[90%] md:w-[40%] md:min-w-[500px] flex flex-col justify-center items-center gap-2">
+                    <h2 className="text-2xl bg-black/60 text-white font-bold w-[90%] md:w-[60%] py-4 rounded-3xl text-center">Crea tu reserva</h2>
                     {/* Paso 1: Selección de Fecha */}
                     {step === 1 && (
-                        <Calendar_input setSelectedDate={setSelectedDate} selectedDate={selectedDate} />
+                        <Calendar_input setSelectedDate={setSelectedDates} selectedDate={selectedDates} />
                     )}
 
                     {/* Paso 2: Selección de Horario */}
                     {step === 2 && (
-                        <Horarios_input horarios={horarios} selectedTimes={selectedTimes} handleTimeSelection={handleTimeSelection} />
+                        <Horarios_input horarios={horarios} selectedTimes={selectedTimes} handleTimeSelection={handleTimeSelection} selectedDates={selectedDates} />
                     )}
 
                     {/* Paso 3: Confirmación */}
                     {step === 3 && (
-                        <Confirm_modal selectedDate={selectedDate} selectedTimes={selectedTimes}/>
+                        <Confirm_modal selectedDates={selectedDates} selectedTimes={selectedTimes} horarios={horarios} />
                     )}
 
                     {/* Botones de navegación */}
-                    <div className="flex justify-between mt-6 w-[60%]">
+                    <div className="flex flex-col md:flex-row justify-between mt-6 w-[80%] gap-4 md:gap-0">
                         {step > 1 && (
-                            <button onClick={() => setStep(step - 1)} className="bg-[#00224E] px-4 py-2 rounded-md text-white w-[30%]">Atrás</button>
+                            <button disabled={loading} onClick={() => setStep(step - 1)} className="bg-[#00224E] px-4 py-2 rounded-md text-white w-full md:w-[30%] min-w-[100px] transition hover:scale-110 hover:shadow-xl">Atrás</button>
                         )}
-                        <button onClick={handleCancel} className="bg-red-500 px-4 py-2 rounded-md text-white w-[30%]">Cancelar</button>
+                        <button onClick={handleCancel} className="bg-red-500 px-4 py-2 rounded-md text-white w-full md:w-[30%] transition hover:scale-110 hover:shadow-xl">Cancelar</button>
                         {step < 3 ? (
                             <button
                                 onClick={() => setStep(step + 1)}
-                                className="bg-[#F6BF41] px-4 py-2 rounded-md text-black w-[30%]"
+                                disabled={loading}
+                                className="bg-[#F6BF41] px-4 py-2 rounded-md text-black w-full md:w-[30%] transition hover:scale-110 hover:shadow-xl"
                             >
                                 Siguiente
                             </button>
                         ) : (
                             <button
-                                onClick={() => { saveReserva(selectedDate, selectedTimes, setState) }}
-                                className="bg-green-500 px-4 py-2 rounded-md text-white w-[30%]"
+                                onClick={() => { saveReserva(selectedDates, selectedTimes, setState) }}
+                                disabled={loading}
+                                className="bg-green-500 px-4 py-2 rounded-md text-white w-full md:w-[30%] transition hover:scale-110 hover:shadow-xl flex justify-center items-center"
                             >
-                                Aceptar
+                                {loading ? (
+                                    <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-white"></div>
+                                ) : (
+                                    "Aceptar"
+                                )}
                             </button>
                         )}
                     </div>

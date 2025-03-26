@@ -6,6 +6,7 @@ import App from './App'
 import { AuthProvider } from '../src/context/AuthContext'
 import { CategoryProvider } from '../src/context/CategoryContext'
 import { ReservaProvider } from './context/ReservaContext'
+import { ReservationProvider } from './context/ReservationContext'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -13,7 +14,9 @@ createRoot(document.getElementById('root')).render(
       <AuthProvider>
         <CategoryProvider>
           <ReservaProvider>
-            <App />
+            <ReservationProvider>
+              <App />
+            </ReservationProvider>
           </ReservaProvider>
         </CategoryProvider>
       </AuthProvider>

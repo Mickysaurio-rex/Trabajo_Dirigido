@@ -58,7 +58,7 @@ export default function Profile_page() {
                         className='rounded-[50%] w-[25vw] h-[25vw] min-w-[300px] min-h-[300px] object-cover' 
                     />
                 </div>
-                <div className='w-[80%] h-[30%] flex flex-col justify-around items-center'>
+                <div className='w-[80%] h-[30%] flex flex-col justify-around items-center gap-2'>
                     <input 
                         type="file" 
                         accept="image/*" 
@@ -86,7 +86,7 @@ export default function Profile_page() {
                     </button>
                 </div>
             </section>
-            <section className='w-[60%] py-5 flex flex-col justify-around h-[90vh] min-h-[660px]'>
+            <section className='px-2 md:px-0 w-full md:w-[60%] py-5 flex flex-col justify-around h-[90vh] min-h-[660px]'>
             {
                 !isEdit ? <Info_section user={userData} setState={setStateEdit}/> 
                 : <Form_section userProfile={userData} setState={setStateEdit}/>

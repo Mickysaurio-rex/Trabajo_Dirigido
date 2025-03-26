@@ -66,10 +66,10 @@ export default function Selector_material_page() {
                     />
                 ))}
             </section>
-            <section className="flex justify-end px-10">
+            <section className="flex justify-end px-10 w-full">
                 <button
                     onClick={() => navigate('../nueva_reserva')}
-                    className='font-medium text-[20px] lg:text-[28px] min-h-[60px] bg-[#F6BF41] rounded-[20px] shadow-lg md:w-[40%] lg:w-[40%] h-[4vw] transition hover:scale-110 hover:shadow-xl text-white'>
+                    className='font-medium text-[20px] lg:text-[28px] min-h-[60px] bg-[#F6BF41] rounded-[20px] shadow-lg w-[60%] md:w-[40%] lg:w-[40%] h-[4vw] transition hover:scale-110 hover:shadow-xl text-white'>
                     Siguiente
                 </button>
             </section>

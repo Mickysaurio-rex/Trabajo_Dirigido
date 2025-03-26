@@ -23,8 +23,8 @@ export default function Info_section({ user, setState }) {
                 <Info_user_card tittle={'Correo'} info={user.correo} />
                 <Info_user_card tittle={'Teléfono'} info={user.telefono} />
             </div>
-            <div className='w-[30%]'>
-                <button onClick={() => setState(true)} className='bg-[#00224E] drop-shadow-lg text-white rounded-[20px] w-full transition hover:scale-110 hover:shadow-xl py-5'>Editar</button>
+            <div className='w-full md:w-[30%]'>
+                <button onClick={() => setState(true)} className='bg-[#00224E] drop-shadow-lg text-white text-[16px] md:text-[20px] lg:text-[24px] rounded-[20px] w-full transition hover:scale-110 hover:shadow-xl py-5'>Editar</button>
             </div>
         </>
 

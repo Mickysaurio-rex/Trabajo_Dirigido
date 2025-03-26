@@ -21,8 +21,8 @@ export default function ModalSelectDate({ stateModal, setState, selectedDate, se
 
     return (
         stateModal && (
-            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center ">
-                <div className="bg-white/50 backdrop-blur-[6px] p-6 rounded-[40px] shadow-lg w-[90%] md:w-[40%] flex flex-col justify-center items-center gap-2">
+            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
+                <div className="bg-white/50 backdrop-blur-[6px] p-6 rounded-[40px] shadow-lg w-[90%] md:w-[40%] md:min-w-[500px] flex flex-col justify-center items-center gap-2">
                     <h2 className="text-2xl bg-black/60 text-white font-bold w-[60%] py-4 rounded-3xl text-center">Selecciona tu fecha</h2>
                     {/* Paso 1: Selección de Fecha */}
                     {step === 1 && (
@@ -40,15 +40,15 @@ export default function ModalSelectDate({ stateModal, setState, selectedDate, se
                     )}
 
                     {/* Botones de navegación */}
-                    <div className="flex justify-between mt-6 w-[60%]">
+                    <div className="flex flex-col md:flex-row justify-between mt-6 w-[80%] gap-4 md:gap-0">
                         {step > 1 && (
-                            <button onClick={() => setStep(step - 1)} className="bg-[#00224E] px-4 py-2 rounded-md text-white w-[30%]">Atrás</button>
+                            <button onClick={() => setStep(step - 1)} className="bg-[#00224E] px-4 py-2 rounded-md text-white w-full md:w-[30%] min-w-[100px] transition hover:scale-110 hover:shadow-xl">Atrás</button>
                         )}
-                        <button onClick={() => {handleCancel(); setStep(1);}} className="bg-red-500 px-4 py-2 rounded-md text-white w-[30%]">Cancelar</button>
+                        <button onClick={() => {handleCancel(); setStep(1);}} className="bg-red-500 px-4 py-2 rounded-md text-white w-full md:w-[30%] transition hover:scale-110 hover:shadow-xl">Cancelar</button>
                         {step < 3 ? (
                             <button
                                 onClick={() => setStep(step + 1)}
-                                className="bg-[#F6BF41] px-4 py-2 rounded-md text-black w-[30%]"
+                                className="bg-[#F6BF41] px-4 py-2 rounded-md text-black w-full md:w-[30%] transition hover:scale-110 hover:shadow-xl"
                             >
                                 Siguiente
                             </button>

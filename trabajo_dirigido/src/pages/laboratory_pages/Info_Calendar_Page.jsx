@@ -1,10 +1,12 @@
 import Card_black_info from '../../components/home_page_components/Card_black_info';
-import * as React from 'react';
+
+import { useState } from 'react';
 import Reservation_cards_lab from '../../components/laboratory_components/Reservation_cards_lab';
 import ModalReserva from '../../components/laboratory_components/modal_form_newReserv/Modal_newReserv';
 
 export default function Info_Calendar_Page() {
-    const [stateModal, setStateModal ] = React.useState(false);    
+    const [reservaciones, setReservaciones] = useState([]);
+    const [stateModal, setStateModal ] = useState(false);    
     const info_lab = {title: 'Laboratorio de Aceros', info: 'En esta sección usted tendrá la posibilidad de crear una reserva para el ambiente del laboratorio o visulaizar las fechas que ya se encuentren reservadas.'}
 
     return (
@@ -17,10 +19,10 @@ export default function Info_Calendar_Page() {
                 <img src="/img_card_black1.jpg" className='w-[60%] h-[25vw] object-cover object-top rounded-[60px] drop-shadow-[0_5px_6px_rgba(0,0,0,0.60)] hidden md:block lg:block'></img>
             </section>
             <section className="w-full flex flex-col gap-2">
-                <Reservation_cards_lab setModal={setStateModal}/>
+                <Reservation_cards_lab setModal={setStateModal} reservaciones={reservaciones} setReservaciones={setReservaciones}/>
             </section>
         </div>
-        <ModalReserva stateModal={stateModal} setState={setStateModal} />
+        <ModalReserva stateModal={stateModal} setState={setStateModal} state={stateModal} setReservaciones={setReservaciones}/>
         </>
     )
 }

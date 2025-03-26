@@ -1,7 +1,4 @@
 import * as React from 'react'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Card_info_resv from '../../components/generalComponents/Card_info_resv';
 import { useNavigate } from 'react-router-dom';
 import firebaseApp from "../../firebase/credenciales";
@@ -10,6 +7,7 @@ import Selector_date_lab from '../../components/laboratory_components/Selector_d
 
 export default function Reservation_page(){
   const [reservas, setReservas] = React.useState([]);
+  const [loading, setLoading] = React.useState(false)
   const firestore = getFirestore(firebaseApp);
   const [selectedDate, setSelectedDate] = React.useState({ month: "", day: "" });
   const [filteredReservaciones, setFilteredReservaciones] = React.useState([]);
@@ -47,9 +45,11 @@ React.useEffect(() => {
     }, [selectedDate, reservas]);
 
     const handleCancelReservation = async (id) => {
+        setLoading(true)
         try {
             await deleteDoc(doc(firestore, "reservas", id));
             setReservas(prev => prev.filter(reserva => reserva.id !== id));
+            setLoading(false)
         } catch (error) {
             console.error("Error al cancelar la reserva:", error);
         }
@@ -73,7 +73,7 @@ const navigation = useNavigate();
             </section>
             <section className='h-[55%] flex flex-col gap-5'>
                 {filteredReservaciones.map((reserva) => (
-                  <Card_info_resv event={reserva} handleCancel={handleCancelReservation} />
+                  <Card_info_resv event={reserva} handleCancel={handleCancelReservation} loading={loading}/>
                 ))}
             </section>
         </div>

@@ -50,7 +50,7 @@ export default function Login_page() {
  
 
   return (
-    <div className="bg-[url('fondo_login.jpg')] lg:bg-cover md:bg-cover bg-cover h-screen min-h-[700px] p-12 grid justify-items-center place-items-center lg:flex">
+    <div className="bg-[url('/fondo_login.jpg')] lg:bg-cover md:bg-cover bg-cover h-screen min-h-[700px] p-12 grid justify-items-center place-items-center lg:flex">
       <section className='flex flex-col items-center gap-y-5 md:gap-y-10 lg:gap-y-10 bg-white/50 backdrop-blur-md min-h-[500px] h-[70vh] md:h-[90vh] lg:h-[90vh] md:w-[40vw] lg:w-[40vw] rounded-[20px] p-10'>
         <img src="logo_upb.png" className='lg:w-3/12 md:w-4/12 h-auto w-2/3' />
         <h1 className='text-2xl lg:text-4xl text-black font-bold'>INICIA SESIÓN</h1>

@@ -31,7 +31,7 @@ export default function Card_info_material({ element, state, setStateModal, setM
     return (
         <>
             {state &&
-                <div className='absolute top-0 left-0 w-screen h-screen bg-white/60 flex justify-center items-center'>
+                <div className='fixed inset-0 w-screen h-screen bg-white/60 flex justify-center items-center z-50'>
                     <div className='flex flex-col md:flex-row lg:flex-row lg:gap-y-[25px] bg-[#F6BF41] rounded-[30px] w-[80%] h-[90%] md:h-[30vh] lg:h-[70%] min-h-[600px] '>
                         <section className="bg-[url('/public/UPB_30Anios.jpg')] bg-contain place-content-center justify-items-center w-full md:w-[40%] lg:w-[40%] h-[100%] lg:h-full">
                             <img src={element.imagen} className='w-[40%] md:w-[80%] lg:w-[70%]' />
