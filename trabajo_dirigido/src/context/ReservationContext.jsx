@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getDocs, addDoc, deleteDoc, collection, getFirestore, doc, query, where, getDoc } from "firebase/firestore";
+import { getDocs, addDoc, deleteDoc, collection, getFirestore, doc, query, where, getDoc, updateDoc } from "firebase/firestore";
 import firebaseApp from "../firebase/credenciales";
 import { useAuth } from "./AuthContext"; // Para manejar el usuario actual
 
@@ -9,6 +9,7 @@ const ReservationContext = createContext();
 export function ReservationProvider({ children }) {
     const { user } = useAuth();
     const [reservations, setReservations] = useState([]);
+    const [horarios, setHorarios] = useState([]); 
     const [loading, setLoading] = useState(false);
 
     // 🔄 Cargar reservas, subreservas y datos de usuario desde Firebase
@@ -58,7 +59,34 @@ export function ReservationProvider({ children }) {
         };
 
         fetchReservations();
+        getHorarios();
     }, []);
+
+    // 🔹 Función para obtener los horarios de Firebase
+    async function getHorarios() {
+        try {
+            const horariosRef = collection(firestore, "horarios");
+            const horariosSnapshot = await getDocs(horariosRef);
+            const horariosData = horariosSnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+            setHorarios(horariosData);
+        } catch (error) {
+            console.error("Error al obtener horarios:", error);
+        }
+    }
+
+    // Obtener reserva por ID
+    const getReservaById = (id) => {
+        return reservations.find(reserva => reserva.id === id);
+    };
+
+    // Obtener subreservas por ID de reserva
+    const getSubreservasByReservaId = (id) => {
+        const reserva = getReservaById(id);
+        return reserva ? reserva.subreservas : [];
+    };
 
     const addReservation = async (selectedDates, selectedTimes) => {
         if (!user) return;
@@ -122,8 +150,66 @@ export function ReservationProvider({ children }) {
         setLoading(false);
     };
 
+    // 🔹 Eliminar una subreserva
+    const deleteSubreserva = async (subreservaId) => {
+        setLoading(true);
+        try {
+            // Eliminar la subreserva de Firebase
+            await deleteDoc(doc(firestore, "subreservaLab", subreservaId));
+
+            // Actualizar el estado de las reservas, eliminando la subreserva correspondiente
+            setReservations(prevReservations =>
+                prevReservations.map(reserva => ({
+                    ...reserva,
+                    subreservas: reserva.subreservas.filter(sub => sub.id !== subreservaId),
+                }))
+            );
+        } catch (error) {
+            console.error("Error eliminando la subreserva:", error);
+        }
+        setLoading(false);
+    };
+
+    // 🔹 Actualizar una subreserva (horarios)
+    const updateSubreserva = async (subreservaId, horariosSeleccionados) => {
+        setLoading(true);
+        try {
+            // Obtener la subreserva
+            const subreservaRef = doc(firestore, "subreservaLab", subreservaId);
+            
+            // Actualizar los horarios de la subreserva
+            await updateDoc(subreservaRef, {
+                horarios: horariosSeleccionados,
+            });
+
+            // Actualizar el estado local
+            setReservations(prevReservations =>
+                prevReservations.map(reserva => ({
+                    ...reserva,
+                    subreservas: reserva.subreservas.map(sub => 
+                        sub.id === subreservaId ? { ...sub, horarios: horariosSeleccionados } : sub
+                    ),
+                }))
+            );
+        } catch (error) {
+            console.error("Error actualizando la subreserva:", error);
+        }
+        setLoading(false);
+    };
+
     return (
-        <ReservationContext.Provider value={{ reservations, addReservation, deleteReservation, loading }}>
+        <ReservationContext.Provider value={{
+            reservations,
+            horarios,
+            getHorarios,
+            addReservation,
+            deleteReservation,
+            deleteSubreserva, 
+            updateSubreserva, 
+            getReservaById,
+            getSubreservasByReservaId,
+            loading
+        }}>
             {children}
         </ReservationContext.Provider>
     );

@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import Selector_date_lab from '../../components/laboratory_components/Selector_date_lab';
 import Card_show_reserv from '../laboratory_components/Card_show_reserv';
 import { useReservations } from "../../context/ReservationContext";
+import { useNavigate } from 'react-router-dom';
 
 export default function Reservation_cards_lab({ setModal }) {
     const { reservations, loading, deleteReservation } = useReservations();
     const [filteredReservaciones, setFilteredReservaciones] = useState([]);
     const [selectedDate, setSelectedDate] = useState({ month: "", day: "" });
+    const navigate = useNavigate();
 
     useEffect(() => {
         const filtered = reservations.filter(reserva => 
@@ -51,7 +53,8 @@ export default function Reservation_cards_lab({ setModal }) {
                     </button>
                 </div>
             </section>
-            <section className='flex flex-col gap-2'>
+            <section 
+            className='flex flex-col gap-2'>
                 {filteredReservaciones.map((reservacion) => (
                     <Card_show_reserv 
                         key={reservacion.id} 

@@ -59,8 +59,7 @@ const navigation = useNavigate();
     return (
         <div className='min-h-screen p-10 flex flex-col gap-10'>
             <header className='bg-black/60 rounded-[30px] md:w-[30vw] lg:w-[30vw] max-w-[400px] h-[15%] min-h-[100px] backdrop-blur-sm p-5 place-content-center'>
-                <h2
-                 
+                <h2    
                 className='text-[30px] md:text-[30px] lg:text-[50px] text-center md:text-start lg:text-start font-bold text-white'>Tus Reservas</h2>
             </header>
             <section className='w-full flex flex-col gap-5 justify-between items-center h-[15%]'>

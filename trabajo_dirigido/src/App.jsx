@@ -12,6 +12,7 @@ import Perfil from "./pages/profile_pages/Profile_page";
 import Info_Calendar_page from "./pages/laboratory_pages/Info_Calendar_Page";
 import New_reserv_page from "./pages/reservation_page/New_reserv_page";
 import Selector_material_page from "./pages/reservation_page/Selector_material_page";
+import Reserva_info_page from "./pages/laboratory_pages/Reserva_info_page";
 
 function AppRoutes() {
     const { user, loading } = useAuth();
@@ -38,6 +39,7 @@ function AppRoutes() {
                     <Route path="materiales" element={<Materiales />} />
                     <Route path="materiales_selec" element={<Materiales_selector />} />
                     <Route path="perfil" element={<Perfil />} />
+                    <Route path="reservLab_info/:id" element={<Reserva_info_page />} /> 
                 </Route>
             </Routes>
         </Router>
